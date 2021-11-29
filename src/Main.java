@@ -2,7 +2,6 @@ import controllers.PersonController;
 import models.Family;
 import models.Person;
 import java.util.InputMismatchException;
-import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -14,31 +13,31 @@ public class Main {
     
     PersonController personController = new PersonController();
     Scanner scanner = new Scanner(System.in);
-    String banner = "__________________________________________________________________________________________________\n" +
-                    " ________________________________________________________________________________________________\n" +
-                    "|                                    ________________________                     [ManagePeople®]|\n" +
-                    "|---------------------------------- | MANAGE PEOPLE -API WEB | ----------------------------------|\n" +
-                    "|________________________________________________________________________________________________|\n" +
-                    "__________________________________________________________________________________________________";
-    String mainMenu = " ________________________________________________________________________________________________\n" +
-                      "|                                        ________________                                        |\n" +
-                      "|-------------------------------------- | MENÚ PRINCIPAL | --------------------------------------|\n" +
-                      "|________________________________________________________________________________________________|\n" +
-                      " ________________________________________________________________________________________________\n" +
-                      "|                         [--->] 1. Registrar persona nueva------------>(1)                      |\n" +
-                      "|                         [--->] 2. Actualizar información de persona-->(2)                      |\n" +
-                      "|                         [--->] 3. Obtener personas registradas------->(3)                      |\n" +
-                      "|                         [--->] 4. Obtener a persona registrada------->(4)                      |\n" +
-                      "|                         [--->] 5. Remover persona del sistema-------->(5)                      |\n" +
-                      "|                         [--->] 6. Agregar familia a una persona------>(6)                      |\n" +
-                      "|                         [--->] 7. Actualizar familia de una persona-->(7)                      |\n" +
-                      "|                         [--->] 8. Obtener familia de una persona(ID)->(8)                      |\n" +
-                      "|                         [--->] 9. Remover familia de una persona----->(9)                      |\n" +
-                      "|                         [--->] 0. Cerrar el programa----------------->(0)                     |\n" +
-                      "|________________________________________________________________________________________________|";
+    String banner = """
+            __________________________________________________________________________________________________
+             ________________________________________________________________________________________________
+            |                                    ________________________                     [ManagePeople®]|
+            |---------------------------------- | MANAGE PEOPLE -API WEB | ----------------------------------|
+            |________________________________________________________________________________________________|
+            __________________________________________________________________________________________________""";
+    String mainMenu = """
+             ________________________________________________________________________________________________
+            |                                        ________________                                        |
+            |-------------------------------------- | MENÚ PRINCIPAL | --------------------------------------|
+            |________________________________________________________________________________________________|
+             ________________________________________________________________________________________________
+            |                         [--->] 1. Registrar persona nueva------------>(1)                      |
+            |                         [--->] 2. Actualizar información de persona-->(2)                      |
+            |                         [--->] 3. Obtener personas registradas------->(3)                      |
+            |                         [--->] 4. Obtener a persona registrada------->(4)                      |
+            |                         [--->] 5. Remover persona del sistema-------->(5)                      |
+            |                         [--->] 6. Agregar familia a una persona------>(6)                      |
+            |                         [--->] 7. Actualizar familia de una persona-->(7)                      |
+            |                         [--->] 8. Obtener familia de una persona(ID)->(8)                      |
+            |                         [--->] 9. Remover familia de una persona----->(9)                      |
+            |                         [--->] 0. Cerrar el programa----------------->(0)                      |
+            |________________________________________________________________________________________________|""";
     String formatOption = "__________________________________________________________________________________________________";
-    String format1 =      " ________________________________________________________________________________________________ ";
-    String format2 =      "|________________________________________________________________________________________________|";
     String closeSucccessfully = " EL PROGRAMA SE HA CERRADO EXITOSAMENTE...";
     String optionMenuError = " SELECCIONE UNA OPCION QUE SE ENCUENTRE EN EL MENU...";
 
@@ -104,7 +103,7 @@ public class Main {
     public void updatePerson() {
         personController.getPeople();
         System.out.println(formatOption);
-        int id = 0;
+        int id;
         try {
             System.out.println( " Ingrese el ID de la persona a actualizar información: ");
             id = scanner.nextInt();
@@ -140,7 +139,7 @@ public class Main {
     public void getPerson(){
         personController.getPeople();
         System.out.println(formatOption);
-        int id = 0;
+        int id;
         try {
             System.out.println( " Ingrese el ID de la persona registrada en el sistema:");
             id = scanner.nextInt();
@@ -160,7 +159,7 @@ public class Main {
     public void removePersonById(){
         personController.getPeople();
         System.out.println(formatOption);
-        int id = 0;
+        int id;
         try {
             System.out.println( " Ingrese el ID de la persona a remover del sistema:");
             id = scanner.nextInt();
@@ -182,7 +181,7 @@ public class Main {
     public void createFamilyPerson(){
         personController.getPeople();
         System.out.println(formatOption);
-        int personId = 0;
+        int personId;
         try {
             System.out.println( " Ingrese el ID de la persona a agregar familia: ");
             personId = scanner.nextInt();
@@ -212,6 +211,7 @@ public class Main {
         }
         System.out.println(formatOption);
         personController.createFamilyPerson(personId, personController.familyToJson(new Family(personId,father,mother, sons.toString())));
+        System.out.println(formatOption);
         System.out.println(" LA FAMILIA DE LA PERSONA SE HA REGISTRADO CORRECTAMENTE");
         backToMenu();
     }
@@ -219,7 +219,7 @@ public class Main {
     public void updateFamilyPerson(){
         personController.getPeople();
         System.out.println(formatOption);
-        int personId = 0;
+        int personId;
         try {
             System.out.println( " Ingrese el ID de la persona a actualizar familia: ");
             personId = scanner.nextInt();
@@ -234,7 +234,7 @@ public class Main {
         System.out.println(formatOption);
         personController.getFamilyPerson(personId);
         System.out.println(formatOption);
-        int id = 0;
+        int id;
         try {
             System.out.println( " Ingrese el ID de registro de la familia a actualizar informacion: ");
             id = scanner.nextInt();
@@ -271,7 +271,7 @@ public class Main {
     public void getFamilyPerson(){
         personController.getPeople();
         System.out.println(formatOption);
-        int personId = 0;
+        int personId;
         try {
             System.out.println( " Ingrese el ID de la persona a obtener su familia:");
             personId = scanner.nextInt();
@@ -291,7 +291,7 @@ public class Main {
     public void removeFamilyPerson(){
         personController.getPeople();
         System.out.println(formatOption);
-        int personId = 0;
+        int personId;
         try {
             System.out.println( " Ingrese el ID de la persona a remover familia: ");
             personId = scanner.nextInt();
@@ -306,7 +306,7 @@ public class Main {
         System.out.println(formatOption);
         personController.getFamilyPerson(personId);
         System.out.println(formatOption);
-        int id = 0;
+        int id;
         try {
             System.out.println( " Ingrese el ID de registro de la familia a remover del sistema: ");
             id = scanner.nextInt();
