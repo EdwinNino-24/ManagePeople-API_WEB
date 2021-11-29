@@ -1,7 +1,6 @@
 import controllers.PersonController;
 import models.Family;
 import models.Person;
-
 import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
@@ -43,7 +42,6 @@ public class Main {
     String closeSucccessfully = " EL PROGRAMA SE HA CERRADO EXITOSAMENTE...";
     String optionMenuError = " SELECCIONE UNA OPCION QUE SE ENCUENTRE EN EL MENU...";
 
-
     public Main(){
         run();
     }
@@ -80,6 +78,7 @@ public class Main {
                     System.out.println(formatOption);
                     System.out.println(optionMenuError);
                     System.out.println(formatOption);
+                    backToMenu();
                 }
             }
         }while(optionMenu != 0);
@@ -96,14 +95,27 @@ public class Main {
         String numberPhone = scanner.nextLine();
         System.out.println(formatOption);
         personController.createPerson(personController.personToJson(new Person(name,surname,numberPhone)));
+        System.out.println(formatOption);
+        System.out.println(" LA INFORMACIÓN DE LA NUEVA PERSONA SE HA REGISTRADO CORRECTAMENTE");
         backToMenu();
     }
 
 
-    public void updatePerson(){
-        System.out.println( " Ingrese el ID de la persona a actualizar informacion: ");
-        int id = scanner.nextInt();
-        scanner.skip("\n");
+    public void updatePerson() {
+        personController.getPeople();
+        System.out.println(formatOption);
+        int id = 0;
+        try {
+            System.out.println( " Ingrese el ID de la persona a actualizar información: ");
+            id = scanner.nextInt();
+            scanner.skip("\n");
+        }
+        catch (InputMismatchException e) {
+            System.out.println(formatOption);
+            System.out.println(" ID INGRESADO INVÁLIDO...");
+            System.out.println(formatOption);
+            return;
+        }
         System.out.println(formatOption);
         System.out.println( " Ingrese el nombre: ");
         String name = scanner.nextLine();
@@ -115,6 +127,8 @@ public class Main {
         String numberPhone = scanner.nextLine();
         System.out.println(formatOption);
         personController.updatePerson(id,personController.personToJson(new Person(name,surname,numberPhone)));
+        System.out.println(formatOption);
+        System.out.println(" LA INFORMACIÓN DE LA PERSONA SE HA ACTUALIZADO CORRECTAMENTE");
         backToMenu();
     }
 
@@ -124,27 +138,62 @@ public class Main {
     }
 
     public void getPerson(){
-        System.out.println( " Ingrese el ID de la persona registrada en el sistema:");
-        int id = scanner.nextInt();
-        scanner.skip("\n");
+        personController.getPeople();
+        System.out.println(formatOption);
+        int id = 0;
+        try {
+            System.out.println( " Ingrese el ID de la persona registrada en el sistema:");
+            id = scanner.nextInt();
+            scanner.skip("\n");
+        }
+        catch (InputMismatchException e) {
+            System.out.println(formatOption);
+            System.out.println(" ID INGRESADO INVÁLIDO...");
+            System.out.println(formatOption);
+            return;
+        }
         System.out.println(formatOption);
         personController.getPerson(id);
         backToMenu();
     }
 
     public void removePersonById(){
-        System.out.println( " Ingrese el ID de la persona a remover del sistema:");
-        int id = scanner.nextInt();
-        scanner.skip("\n");
+        personController.getPeople();
+        System.out.println(formatOption);
+        int id = 0;
+        try {
+            System.out.println( " Ingrese el ID de la persona a remover del sistema:");
+            id = scanner.nextInt();
+            scanner.skip("\n");
+        }
+        catch (InputMismatchException e) {
+            System.out.println(formatOption);
+            System.out.println(" ID INGRESADO INVÁLIDO...");
+            System.out.println(formatOption);
+            return;
+        }
         System.out.println(formatOption);
         personController.deletePerson(id);
+        System.out.println(formatOption);
+        System.out.println(" LA PERSONA SE HA REMOVIDO DEL SISTEMA EXITOSAMENTE");
         backToMenu();
     }
 
     public void createFamilyPerson(){
-        System.out.println( " Ingrese el ID de la persona a agregar familia: ");
-        int personId = scanner.nextInt();
-        scanner.skip("\n");
+        personController.getPeople();
+        System.out.println(formatOption);
+        int personId = 0;
+        try {
+            System.out.println( " Ingrese el ID de la persona a agregar familia: ");
+            personId = scanner.nextInt();
+            scanner.skip("\n");
+        }
+        catch (InputMismatchException e) {
+            System.out.println(formatOption);
+            System.out.println(" ID INGRESADO INVÁLIDO...");
+            System.out.println(formatOption);
+            return;
+        }
         System.out.println(formatOption);
         System.out.println( " Ingrese el nombre completo del padre: ");
         String father = scanner.nextLine();
@@ -155,27 +204,48 @@ public class Main {
         System.out.println(" Ingrese el número de hijos de la persona: ");
         int numberSons=scanner.nextInt();
         scanner.skip("\n");
-        String sons="";
+        StringBuilder sons= new StringBuilder();
         for (int i=0; i<numberSons; i++){
             System.out.println(formatOption);
             System.out.println( "Ingrese el nombre del hijo: ");
-            sons += scanner.nextLine() + ",";
+            sons.append(scanner.nextLine()).append(",");
         }
         System.out.println(formatOption);
-        personController.createFamilyPerson(personId, personController.familyToJson(new Family(personId,father,mother,sons)));
+        personController.createFamilyPerson(personId, personController.familyToJson(new Family(personId,father,mother, sons.toString())));
+        System.out.println(" LA FAMILIA DE LA PERSONA SE HA REGISTRADO CORRECTAMENTE");
         backToMenu();
     }
 
     public void updateFamilyPerson(){
-        System.out.println( " Ingrese el ID de la persona a actualizar informacion: ");
-        int personId = scanner.nextInt();
-        scanner.skip("\n");
+        personController.getPeople();
+        System.out.println(formatOption);
+        int personId = 0;
+        try {
+            System.out.println( " Ingrese el ID de la persona a actualizar familia: ");
+            personId = scanner.nextInt();
+            scanner.skip("\n");
+        }
+        catch (InputMismatchException e) {
+            System.out.println(formatOption);
+            System.out.println(" ID INGRESADO INVÁLIDO...");
+            System.out.println(formatOption);
+            return;
+        }
         System.out.println(formatOption);
         personController.getFamilyPerson(personId);
         System.out.println(formatOption);
-        System.out.println( " Ingrese el ID del registro de la familia a actualizar informacion: ");
-        int id = scanner.nextInt();
-        scanner.skip("\n");
+        int id = 0;
+        try {
+            System.out.println( " Ingrese el ID de registro de la familia a actualizar informacion: ");
+            id = scanner.nextInt();
+            scanner.skip("\n");
+        }
+        catch (InputMismatchException e) {
+            System.out.println(formatOption);
+            System.out.println(" ID INGRESADO INVÁLIDO...");
+            System.out.println(formatOption);
+            return;
+        }
         System.out.println(formatOption);
         System.out.println( " Ingrese el nombre completo del padre: ");
         String father = scanner.nextLine();
@@ -186,44 +256,85 @@ public class Main {
         System.out.println(" Ingrese el número de hijos de la persona: ");
         int numberSons=scanner.nextInt();
         scanner.skip("\n");
-        String sons="";
+        StringBuilder sons= new StringBuilder();
         for (int i=0; i<numberSons; i++){
             System.out.println(formatOption);
             System.out.println( "Ingrese el nombre del hijo: ");
-            sons += scanner.nextLine() + ",";
+            sons.append(scanner.nextLine()).append(",");
         }
         System.out.println(formatOption);
-        personController.updateFamilyPerson(personId,personController.familyToJson(new Family(personId,father,mother,sons)),id);
+        personController.updateFamilyPerson(personId,personController.familyToJson(new Family(personId,father,mother, sons.toString())),id);
         backToMenu();
+        System.out.println(" LA FAMILIA DE LA PERSONA SE HA ACTUALIZADO CORRECTAMENTE");
     }
 
     public void getFamilyPerson(){
-        System.out.println( " Ingrese el ID de la persona registrada en el sistema:");
-        int personId = scanner.nextInt();
-        scanner.skip("\n");
+        personController.getPeople();
+        System.out.println(formatOption);
+        int personId = 0;
+        try {
+            System.out.println( " Ingrese el ID de la persona a obtener su familia:");
+            personId = scanner.nextInt();
+            scanner.skip("\n");
+        }
+        catch (InputMismatchException e) {
+            System.out.println(formatOption);
+            System.out.println(" ID INGRESADO INVÁLIDO...");
+            System.out.println(formatOption);
+            return;
+        }
         System.out.println(formatOption);
         personController.getFamilyPerson(personId);
         backToMenu();
     }
 
     public void removeFamilyPerson(){
-        System.out.println( " Ingrese el ID de la persona a remover del sistema: ");
-        int personId = scanner.nextInt();
-        scanner.skip("\n");
+        personController.getPeople();
+        System.out.println(formatOption);
+        int personId = 0;
+        try {
+            System.out.println( " Ingrese el ID de la persona a remover familia: ");
+            personId = scanner.nextInt();
+            scanner.skip("\n");
+        }
+        catch (InputMismatchException e) {
+            System.out.println(formatOption);
+            System.out.println(" ID INGRESADO INVÁLIDO...");
+            System.out.println(formatOption);
+            return;
+        }
         System.out.println(formatOption);
         personController.getFamilyPerson(personId);
         System.out.println(formatOption);
-        System.out.println( " Ingrese el ID de registro de la familia a remover del sistema: ");
-        int id = scanner.nextInt();
-        scanner.skip("\n");
+        int id = 0;
+        try {
+            System.out.println( " Ingrese el ID de registro de la familia a remover del sistema: ");
+            id = scanner.nextInt();
+            scanner.skip("\n");
+        }
+        catch (InputMismatchException e) {
+            System.out.println(formatOption);
+            System.out.println(" ID INGRESADO INVÁLIDO...");
+            System.out.println(formatOption);
+            return;
+        }
         System.out.println(formatOption);
         personController.deleteFamilyPerson(personId,id);
+        System.out.println(formatOption);
+        System.out.println(" LA FAMILIA DE LA PERSONA SE HA REMOVIDO EXITOSAMENTE");
         backToMenu();
     }
 
     public void backToMenu(){
         System.out.println(formatOption);
-        System.out.println( "<PRESIONE CUALQUIER TECLA PARA REGRESAR AL MENÚ>");
+        System.out.println( " <PRESIONE CUALQUIER TECLA PARA REGRESAR AL MENÚ>");
+        scanner.nextLine();
+        System.out.println(formatOption);
+    }
+
+    public void pressContinue(){
+        System.out.println(formatOption);
+        System.out.println( " <PRESIONE CUALQUIER TECLA PARA CONTINUAR> ");
         scanner.nextLine();
         System.out.println(formatOption);
     }
